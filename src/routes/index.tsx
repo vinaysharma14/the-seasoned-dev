@@ -8,17 +8,20 @@ import {
 
 import { SuspenseFallback } from 'fallbacks';
 
+const App = lazy(() => import(/* webpackChunkName: "app" */ 'App'));
+
 const Home = lazy(() => import(/* webpackChunkName: "home" */ './Home'));
 const NotFound = lazy(() => import(/* webpackChunkName: "not-found" */ './NotFound'));
 
 export const Router: FC = () => (
   <BrowserRouter>
     <Suspense fallback={<SuspenseFallback />}>
-      <Switch>
-        <Route exact path="/" component={Home} />
-
-        <Route path="*" component={NotFound} />
-      </Switch>
+      <App>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route path="*" component={NotFound} />
+        </Switch>
+      </App>
     </Suspense>
   </BrowserRouter>
 );
