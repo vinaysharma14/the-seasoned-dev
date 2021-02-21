@@ -1,0 +1,27 @@
+$translateXArr: (-200 -100 0 100 200);
+
+@mixin translation {
+  @for $i from 1 through length($translateXArr) {
+    &:nth-child(#{$i}) {
+      transform: translateX(#{nth($translateXArr, $i)}px);
+    }
+  }
+}
+
+.container {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background);
+
+  h1 {
+    font-size: 4em;
+    @include translation();
+    transition: transform 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1);
+  }
+
+  .animate {
+    transform: translateX(0px) !important;
+  }
+}
