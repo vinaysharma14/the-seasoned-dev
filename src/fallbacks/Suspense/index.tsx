@@ -5,15 +5,19 @@ import {
   useCallback,
 } from 'react';
 
+import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
 import { useTheme } from 'hooks';
 import { Contrast } from 'assets/icons';
 import { changeTheme } from 'store/features';
 
+import { messages } from './messages';
+
 import './styles.scss';
 
 export const SuspenseFallback: FC = () => {
+  const intl = useIntl();
   const { theme } = useTheme();
   const dispatch = useDispatch();
 
@@ -27,11 +31,11 @@ export const SuspenseFallback: FC = () => {
       <Contrast onClick={clickHandler} />
 
       <div>
-        <h1 className={animate ? 'animate' : ''}>TH</h1>
-        <h1 className={animate ? 'animate' : ''}>E&nbsp;</h1>
-        <h1 className={animate ? 'animate' : ''}>SEASON</h1>
-        <h1 className={animate ? 'animate' : ''}>ED&nbsp;</h1>
-        <h1 className={animate ? 'animate' : ''}>DEV</h1>
+        {Object.keys(messages).map((key) => (
+          <h1 key={key} className={animate ? 'animate' : ''}>
+            {intl.formatMessage(messages[key], { whitespace: '\u00a0' })}
+          </h1>
+        ))}
       </div>
     </div>
   );
