@@ -6,12 +6,13 @@ import {
   BrowserRouter,
 } from 'react-router-dom';
 
+import { delayImport } from 'utils';
 import { SuspenseFallback } from 'fallbacks';
 
 const App = lazy(() => import(/* webpackChunkName: "app" */ 'App'));
 
-const Home = lazy(() => import(/* webpackChunkName: "home" */ './Home'));
-const NotFound = lazy(() => import(/* webpackChunkName: "not-found" */ './NotFound'));
+const Home = lazy(() => delayImport(import(/* webpackChunkName: "home" */ './Home')));
+const NotFound = lazy(() => delayImport(import(/* webpackChunkName: "not-found" */ './NotFound')));
 
 export const Router: FC = () => (
   <BrowserRouter>
