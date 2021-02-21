@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 
 import { useTheme } from 'hooks';
 import { Contrast } from 'assets/icons';
-import { toggleTheme } from 'store/features';
+import { changeTheme } from 'store/features';
 
 import './styles.scss';
 
@@ -18,7 +18,7 @@ export const SuspenseFallback: FC = () => {
   const dispatch = useDispatch();
 
   const [animate, setAnimate] = useState(false);
-  const clickHandler = useCallback(() => dispatch(toggleTheme()), [dispatch]);
+  const clickHandler = useCallback(() => dispatch(changeTheme()), [dispatch]);
 
   useEffect(() => setAnimate(true), []);
 
