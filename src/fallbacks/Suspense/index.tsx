@@ -1,19 +1,30 @@
-import { FC, useEffect, useState } from 'react';
+import {
+  FC,
+  useState,
+  useEffect,
+  useCallback,
+} from 'react';
+
+import { useDispatch } from 'react-redux';
 
 import { useTheme } from 'hooks';
 import { Contrast } from 'assets/icons';
+import { toggleTheme } from 'store/features';
 
 import './styles.scss';
 
 export const SuspenseFallback: FC = () => {
   const { theme } = useTheme();
+  const dispatch = useDispatch();
+
   const [animate, setAnimate] = useState(false);
+  const clickHandler = useCallback(() => dispatch(toggleTheme()), [dispatch]);
 
   useEffect(() => setAnimate(true), []);
 
   return (
     <div className={`container ${theme}`}>
-      <Contrast />
+      <Contrast onClick={clickHandler} />
 
       <div>
         <h1 className={animate ? 'animate' : ''}>TH</h1>
