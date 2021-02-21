@@ -1,9 +1,24 @@
-$translateXArr: (-200 -100 0 100 200);
+$translate3: (-40 -20 0 20 40);
+$translate2: (-50 -25 0 25 50);
+$translate1: (-100 -50 0 50 100);
+$translate0: (-200 -100 0 100 200);
 
 @mixin translation {
-  @for $i from 1 through length($translateXArr) {
+  @for $i from 1 through length($translate0) {
     &:nth-child(#{$i}) {
-      transform: translateX(#{nth($translateXArr, $i)}px);
+      transform: translateX(#{nth($translate0, $i)}px);
+
+      @media (max-width: 1024px) {
+        transform: translateX(#{nth($translate1, $i)}px);
+      }
+
+      @media (max-width: 768px) {
+        transform: translateX(#{nth($translate2, $i)}px);
+      }
+
+      @media (max-width: 600px) {
+        transform: translateX(#{nth($translate3, $i)}px);
+      }
     }
   }
 }
@@ -11,14 +26,37 @@ $translateXArr: (-200 -100 0 100 200);
 .container {
   height: 100vh;
   display: flex;
+  overflow: hidden;
   align-items: center;
   justify-content: center;
   background-color: var(--background);
+
+  div {
+    display: flex;
+  }
+
+  svg {
+    top: 30px;
+    right: 30px;
+    position: absolute;
+  }
 
   h1 {
     font-size: 4em;
     @include translation();
     transition: transform 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1);
+
+    @media (max-width: 1024px) {
+      font-size: 3em;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 2.5em;
+    }
+
+    @media (max-width: 600px) {
+      font-size: 2em;
+    }
   }
 
   .animate {

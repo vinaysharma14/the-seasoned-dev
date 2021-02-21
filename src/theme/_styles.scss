@@ -29,6 +29,11 @@ h1 {
   font-family: $blackWt;
 }
 
+svg {
+  height: 20px;
+  cursor: pointer;
+}
+
 button {
   border: none;
   outline: none;
