@@ -1,3 +1,4 @@
+@import "./fonts";
 @import "./mixins";
 
 .light {
@@ -15,6 +16,7 @@
 p {
   margin: 0;
   color: var(--primary);
+  font-family: "Montserrat-Medium";
 }
 
 #{$headings} {
