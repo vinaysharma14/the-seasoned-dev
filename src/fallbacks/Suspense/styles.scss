@@ -35,10 +35,17 @@ $translate0: (-200 -100 0 100 200);
     display: flex;
   }
 
-  svg {
+  .cta {
     top: 30px;
-    right: 30px;
     position: absolute;
+  }
+
+  .theme {
+    right: 30px;
+  }
+
+  .language {
+    right: 60px;
   }
 
   h1 {

@@ -9,8 +9,8 @@ import { useIntl } from 'react-intl';
 import { useDispatch } from 'react-redux';
 
 import { useTheme } from 'hooks';
-import { Contrast } from 'assets/icons';
-import { changeTheme } from 'store/features';
+import { Contrast, Language } from 'assets/icons';
+import { changeTheme, changeLanguage } from 'store/features';
 
 import { messages } from './messages';
 
@@ -22,13 +22,16 @@ export const SuspenseFallback: FC = () => {
   const dispatch = useDispatch();
 
   const [animate, setAnimate] = useState(false);
-  const clickHandler = useCallback(() => dispatch(changeTheme()), [dispatch]);
+
+  const themeClickHandler = useCallback(() => dispatch(changeTheme()), [dispatch]);
+  const langClickHandler = useCallback(() => dispatch(changeLanguage()), [dispatch]);
 
   useEffect(() => setAnimate(true), []);
 
   return (
     <div className={`container ${theme}`}>
-      <Contrast onClick={clickHandler} />
+      <Contrast className="cta theme" onClick={themeClickHandler} />
+      <Language className="cta language" onClick={langClickHandler} />
 
       <div>
         {Object.keys(messages).map((key) => (

@@ -21,20 +21,25 @@ const uiSlice = createSlice({
     setTheme: (state: State, { payload }: PayloadAction<State['theme']>) => {
       state.theme = payload;
     },
-    chooseLanguage: (state: State, { payload }: PayloadAction<LocaleType>) => {
+    setLanguage: (state: State, { payload }: PayloadAction<LocaleType>) => {
       state.language = payload;
     },
   },
 });
 
 export const ui = uiSlice.reducer;
-export const { setTheme, chooseLanguage } = uiSlice.actions;
+export const { setTheme, setLanguage } = uiSlice.actions;
 
 const rehydrateUI = (): AppThunk => async (dispatch) => {
   const cachedTheme = await localStorage.getItem(CACHED_VALUES.theme);
+  const cachedLanguage = await localStorage.getItem(CACHED_VALUES.locale);
 
   if (cachedTheme) {
     dispatch(setTheme(cachedTheme as State['theme']));
+  }
+
+  if (cachedLanguage) {
+    dispatch(setLanguage(cachedLanguage as State['language']));
   }
 };
 
@@ -47,4 +52,13 @@ const changeTheme = (): AppThunk => async (dispatch, getState) => {
   dispatch(setTheme(updatedTheme));
 };
 
-export { rehydrateUI, changeTheme };
+const changeLanguage = (): AppThunk => async (dispatch, getState) => {
+  const { language } = getState().ui;
+  const updatedLanguage = language === 'en' ? 'fr' : 'en';
+
+  await localStorage.setItem(CACHED_VALUES.locale, updatedLanguage);
+
+  dispatch(setLanguage(updatedLanguage));
+};
+
+export { rehydrateUI, changeTheme, changeLanguage };
