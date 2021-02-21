@@ -1,0 +1,14 @@
+@import "./variables";
+
+@mixin getTheme($color, $shades) {
+  @each $var in $vars {
+    $index: index($vars, $var);
+
+    @if $index == 1 {
+      --#{$var}: #{invert($color)};
+    } @else {
+      $alpha: nth($shades, $index - 1);
+      --#{$var}: #{rgba($color, $alpha)};
+    }
+  }
+}

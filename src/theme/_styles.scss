@@ -1,0 +1,47 @@
+@import "./fonts";
+@import "./mixins";
+
+.light {
+  @include getTheme($black, $blackShades);
+}
+
+.dark {
+  @include getTheme($white, $whiteShades);
+}
+
+* {
+  transition: background-color 0.25s, box-shadow 0.25s;
+}
+
+p {
+  margin: 0;
+  color: var(--primary);
+  font-family: "Montserrat-Medium";
+}
+
+#{$headings} {
+  margin: 0;
+  font-weight: 500;
+  color: var(--primary);
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 12px;
+  border-radius: 2px;
+  color: var(--background);
+  background-color: var(--primary);
+
+  &:hover {
+    box-shadow: 0 0 0 0.2rem var(--disable);
+  }
+
+  &:disabled {
+    box-shadow: none;
+    cursor: not-allowed;
+    background-color: var(--disable);
+  }
+}
