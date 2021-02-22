@@ -31,8 +31,9 @@ export const ui = uiSlice.reducer;
 export const { setTheme, setLanguage } = uiSlice.actions;
 
 const rehydrateUI = (): AppThunk => async (dispatch) => {
-  const cachedTheme = await localStorage.getItem(CACHED_VALUES.theme);
-  const cachedLanguage = await localStorage.getItem(CACHED_VALUES.locale);
+  const [cachedTheme, cachedLanguage] = await Promise.all(
+    Object.keys(CACHED_VALUES).map((key) => localStorage.getItem(key)),
+  );
 
   if (cachedTheme) {
     dispatch(setTheme(cachedTheme as State['theme']));
