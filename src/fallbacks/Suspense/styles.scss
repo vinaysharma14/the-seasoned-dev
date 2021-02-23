@@ -1,10 +1,5 @@
 $translationBreakpoints: (1024 768 600);
-$responsiveTranslation: (
-  -200 -100 0 100 200,
-  -100 -50 0 50 100,
-  -50 -25 0 25 50,
-  -40 -20 0 20 40
-);
+$responsiveTranslation: (-200 -100 0 100 200, -100 -50 0 50 100, -50 -25 0 25 50, -40 -20 0 20 40);
 
 $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
 
@@ -15,9 +10,7 @@ $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
 
       @for $j from 1 through length($translationBreakpoints) {
         @media (max-width: #{nth($translationBreakpoints, $j )}px) {
-          transform: translateX(
-            #{nth(nth($responsiveTranslation, $j + 1), $i)}px
-          );
+          transform: translateX(#{nth(nth($responsiveTranslation, $j + 1), $i)}px);
         }
       }
     }

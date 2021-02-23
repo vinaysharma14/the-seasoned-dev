@@ -10,10 +10,7 @@ $blackShades: (0.85 0.45 0.25 0.15 0.06 0.04 0.02);
 $headings: h1, h2, h3, h4, h5, h6;
 
 // css vars
-$vars: (
-  background primary secondary disable border divider child-background
-    table-header
-);
+$vars: (background primary secondary disable border divider child-background table-header);
 
 // ascending order of font weights
 $thinWt: "Montserrat-Thin";
