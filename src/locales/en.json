@@ -1,1 +1,7 @@
-{}
+{
+  "app.suspense.fallback.fifthAnim": "DEV",
+  "app.suspense.fallback.firstAnim": "TH",
+  "app.suspense.fallback.fourthAnim": "ED{whitespace}",
+  "app.suspense.fallback.secondAnim": "E{whitespace}",
+  "app.suspense.fallback.thirdAnim": "SEASON"
+}

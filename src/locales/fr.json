@@ -1,1 +1,7 @@
-{}
+{
+  "app.suspense.fallback.fifthAnim": "NÉ",
+  "app.suspense.fallback.firstAnim": "LE D",
+  "app.suspense.fallback.fourthAnim": "RON",
+  "app.suspense.fallback.secondAnim": "EV{whitespace}",
+  "app.suspense.fallback.thirdAnim": "CHEV"
+}

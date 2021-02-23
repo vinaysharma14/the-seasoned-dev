@@ -16,13 +16,27 @@
 p {
   margin: 0;
   color: var(--primary);
-  font-family: "Montserrat-Medium";
+  font-family: $mediumWt;
 }
 
 #{$headings} {
   margin: 0;
   font-weight: 500;
   color: var(--primary);
+}
+
+h1 {
+  font-family: $blackWt;
+}
+
+svg {
+  height: 20px;
+  cursor: pointer;
+  fill: var(--primary);
+
+  @media (max-width: 720px) {
+    height: 15px;
+  }
 }
 
 button {
