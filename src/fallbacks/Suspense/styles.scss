@@ -1,23 +1,24 @@
-$translate3: (-40 -20 0 20 40);
-$translate2: (-50 -25 0 25 50);
-$translate1: (-100 -50 0 50 100);
-$translate0: (-200 -100 0 100 200);
+$translationBreakpoints: (1024 768 600);
+$responsiveTranslation: (
+  -200 -100 0 100 200,
+  -100 -50 0 50 100,
+  -50 -25 0 25 50,
+  -40 -20 0 20 40
+);
+
+$responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
 
 @mixin translation {
-  @for $i from 1 through length($translate0) {
+  @for $i from 1 through length(nth($responsiveTranslation, 1)) {
     &:nth-child(#{$i}) {
-      transform: translateX(#{nth($translate0, $i)}px);
+      transform: translateX(#{nth(nth($responsiveTranslation, 1), $i)}px);
 
-      @media (max-width: 1024px) {
-        transform: translateX(#{nth($translate1, $i)}px);
-      }
-
-      @media (max-width: 768px) {
-        transform: translateX(#{nth($translate2, $i)}px);
-      }
-
-      @media (max-width: 600px) {
-        transform: translateX(#{nth($translate3, $i)}px);
+      @for $j from 1 through length($translationBreakpoints) {
+        @media (max-width: #{nth($translationBreakpoints, $j )}px) {
+          transform: translateX(
+            #{nth(nth($responsiveTranslation, $j + 1), $i)}px
+          );
+        }
       }
     }
   }
@@ -53,16 +54,10 @@ $translate0: (-200 -100 0 100 200);
     @include translation();
     transition: transform 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1);
 
-    @media (max-width: 1024px) {
-      font-size: 3em;
-    }
-
-    @media (max-width: 768px) {
-      font-size: 2.5em;
-    }
-
-    @media (max-width: 600px) {
-      font-size: 2em;
+    @each $heading in $responsiveHeading {
+      @media (max-width: #{nth($heading, 1)}px) {
+        font-size: #{nth($heading, 2)}em;
+      }
     }
   }
 
