@@ -5,15 +5,13 @@ import { exists, promises as fs } from 'fs';
 import { LOCALES, LocaleType } from 'config';
 
 const { readFile, writeFile } = fs;
-const [en, ...restLocales] = LOCALES;
 
 type Translation = Record<string, string>;
 
-const getLocaleJsonPath = (locale: LocaleType) => `src/locales/${locale}.json`;
+const getLocaleJsonPath = (locale: LocaleType | 'temp') => `src/locales/${locale}.json`;
 
-const readLocaleJSON = async (locale: LocaleType): Promise<Translation> => {
+const readLocaleJSON = async (locale: LocaleType | 'temp'): Promise<Translation> => {
   try {
-    console.log(`Reading ${locale} JSON\n`);
     const dataBuffer = await readFile(getLocaleJsonPath(locale));
 
     return JSON.parse(dataBuffer.toString());
@@ -24,7 +22,6 @@ const readLocaleJSON = async (locale: LocaleType): Promise<Translation> => {
 
 const writeLocaleJSON = async (locale: LocaleType, translations: Translation): Promise<void> => {
   try {
-    console.log(`Writing ${locale} JSON\n`);
     await writeFile(getLocaleJsonPath(locale), JSON.stringify(translations, null, 2));
   } catch ({ message }) {
     throw new Error(`Error in writing ${locale} JSON`);
@@ -53,70 +50,86 @@ const arrayToJsonReducer = (
 }, initialValue);
 
 const generateLocaleJSON = async (
-  index: number,
-  enJSON: Translation,
-  existStatus: boolean,
+  locale: LocaleType,
+  tempJSON: Translation,
+  deletedKeys: string[],
+  updatedKeys: string[],
 ) => {
-  const locale = restLocales[index];
-
   try {
-    // if locale JSON doesn't exist, write it with entire en JSON
-    if (!existStatus) {
-      console.log(`${locale} JSON doesn't exist`);
-      await writeLocaleJSON(locale, enJSON);
-    } else {
-      console.log(`Checking ${locale} JSON for new translation`);
+    // read the locale JSON
+    let localeJSON = await readLocaleJSON(locale);
 
-      // as locale JSON exists, read it
-      let localeJSON = await readLocaleJSON(locale);
-
-      const enKeys = Object.keys(enJSON);
-      const localeKeys = Object.keys(localeJSON);
-
-      // check the diff of locale JSON and en JSON for new and deleted translations
-      const newTranslations = enKeys.filter((key) => enJSON[key] !== localeJSON[key]);
-      const deletedTranslations = localeKeys.filter((key) => !enKeys.includes(key));
-
-      if (newTranslations.length || deletedTranslations.length) {
-        // removed deleted translations from locale JSON
-        if (deletedTranslations.length) {
-          deletedTranslations.forEach((key) => delete localeJSON[key]);
-        }
-
-        // if new translations are present in en JSON, add them to existing locale JSON
-        if (newTranslations.length) {
-        // add updated translations to existing locale JSON
-          const updatedLocaleJSON = arrayToJsonReducer(newTranslations, enJSON, localeJSON);
-
-          // sort the locale JSON
-          const sortedJsonKeys = Object.keys(updatedLocaleJSON).sort();
-          localeJSON = arrayToJsonReducer(sortedJsonKeys, updatedLocaleJSON);
-        }
-
-        // write the locale JSON
-        await writeLocaleJSON(locale, localeJSON);
-      } else {
-        console.log(`${locale} JSON upto date!`);
-      }
+    // removed deleted translations from locale JSON
+    if (deletedKeys.length) {
+      deletedKeys.forEach((key) => delete localeJSON[key]);
     }
+
+    // if new translations are present in en JSON, add them to existing locale JSON
+    if (updatedKeys.length) {
+      // add updated translations to existing locale JSON
+      const updatedLocaleJSON = arrayToJsonReducer(updatedKeys, tempJSON, localeJSON);
+
+      // sort the locale JSON
+      const sortedKeys = Object.keys(updatedLocaleJSON).sort();
+      localeJSON = arrayToJsonReducer(sortedKeys, updatedLocaleJSON);
+    }
+
+    // write the locale JSON
+    await writeLocaleJSON(locale, localeJSON);
   } catch (e) {
     throw new Error(`Error in generating ${locale} JSON`);
   }
 };
 
-const init = async () => {
+const generateLocales = async () => {
   try {
-    // read en JSON extracted by format js cli
-    const enJSON = await readLocaleJSON(en);
+    // read temp JSON extracted by format js cli
+    const tempJSON = await readLocaleJSON('temp');
 
-    // check what all locale JSON exist
-    const existStatus = await Promise.all(restLocales.map((locale) => localeJsonExists(locale)));
+    // check if en JSON exists
+    const [en] = LOCALES;
+    const enJsonExists = await localeJsonExists(en);
 
-    // generate locale JSON based on if they exist or not
-    await Promise.all(existStatus.map((exist, index) => generateLocaleJSON(index, enJSON, exist)));
+    if (!enJsonExists) {
+      // if en JSON doesn't exist, assume none of the other locale
+      // JSON exist as well and write them with temp JSON translations
+      console.log('Writing all locale JSON');
+      await Promise.all(LOCALES.map((locale) => writeLocaleJSON(locale, tempJSON)));
+      console.log('All locale JSON written successfully');
+    } else {
+      console.log('Checking updated or deleted translations');
+
+      // as locale en JSON exists, read it
+      const enJson = await readLocaleJSON(en);
+
+      // get the keys of both en and temp JSON
+      const enKeys = Object.keys(enJson);
+      const tempKeys = Object.keys(tempJSON);
+
+      // check the diff of en and temp JSON for deleted and updated translations
+      const deletedKeys = enKeys.filter((key) => !tempKeys.includes(key));
+      const updatedKeys = tempKeys.filter((key) => tempJSON[key] !== enJson[key]);
+
+      // write locale JSON if either some translations have been deleted or updated
+      if (deletedKeys.length || updatedKeys.length) {
+        console.log('Updated or deleted translations found');
+        console.log('Writing all locale JSON');
+
+        await Promise.all(LOCALES.map((locale) => generateLocaleJSON(
+          locale,
+          tempJSON,
+          deletedKeys,
+          updatedKeys,
+        )));
+
+        console.log('All locale JSON written successfully');
+      } else {
+        console.log('Translations upto date');
+      }
+    }
   } catch ({ message }) {
     console.error(message);
   }
 };
 
-init();
+generateLocales();
