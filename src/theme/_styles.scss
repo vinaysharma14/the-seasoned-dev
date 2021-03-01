@@ -30,13 +30,9 @@ h1 {
 }
 
 svg {
-  height: 20px;
+  height: 15px;
   cursor: pointer;
   fill: var(--primary);
-
-  @media (max-width: 720px) {
-    height: 15px;
-  }
 }
 
 button {

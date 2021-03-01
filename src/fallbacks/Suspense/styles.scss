@@ -25,23 +25,6 @@ $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
   justify-content: center;
   background-color: var(--background);
 
-  div {
-    display: flex;
-  }
-
-  .cta {
-    top: 30px;
-    position: absolute;
-  }
-
-  .theme {
-    right: 30px;
-  }
-
-  .language {
-    right: 60px;
-  }
-
   h1 {
     font-size: 4em;
     @include translation();

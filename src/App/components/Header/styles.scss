@@ -1,0 +1,50 @@
+$responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 2s cubic-bezier(0.3, 1, 0.3, 1), transform 2s cubic-bezier(0.3, 1, 0.3, 1);
+
+    @each $heading in $responsiveHeading {
+      @media (max-width: #{nth($heading, 1)}px) {
+        font-size: #{nth($heading, 2)}em;
+      }
+    }
+  }
+
+  .icons-container {
+    svg {
+      opacity: 0;
+      margin-right: 15px;
+      transform: translateY(-10px);
+
+      transition: opacity 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1),
+        transform 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1);
+
+      &:last-child {
+        margin-right: 0;
+        transition: opacity 2s 0.5s cubic-bezier(0.3, 1, 0.3, 1),
+          transform 2s 0.5s cubic-bezier(0.3, 1, 0.3, 1);
+      }
+    }
+  }
+}
+
+.animate-header {
+  h1 {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+
+  .icons-container {
+    svg {
+      opacity: 1;
+      transform: translateY(0px);
+    }
+  }
+}

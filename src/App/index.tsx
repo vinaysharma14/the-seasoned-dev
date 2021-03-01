@@ -2,6 +2,8 @@ import { FC, ReactNode } from 'react';
 
 import { useTheme } from 'hooks';
 
+import { Header } from './components';
+
 import './styles.scss';
 
 interface Props {
@@ -13,6 +15,7 @@ const App: FC<Props> = ({ children }) => {
 
   return (
     <div className={`app-container ${theme}`}>
+      <Header />
       {children}
     </div>
   );
