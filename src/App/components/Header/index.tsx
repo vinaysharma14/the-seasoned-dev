@@ -1,9 +1,4 @@
-import React, {
-  FC,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
+import React, { FC, useCallback } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
@@ -19,19 +14,11 @@ export const Header: FC = () => {
   const intl = useIntl();
   const dispatch = useDispatch();
 
-  const [animate, setAnimate] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAnimate(true);
-    }, 2800);
-  }, []);
-
   const themeClickHandler = useCallback(() => dispatch(changeTheme()), [dispatch]);
   const langClickHandler = useCallback(() => dispatch(changeLanguage()), [dispatch]);
 
   return (
-    <div className={`header ${animate ? 'animate-header' : ''}`}>
+    <div className="header">
       <h1>{intl.formatMessage(message.theSeasonedDev)}</h1>
 
       <div className="icons-container">

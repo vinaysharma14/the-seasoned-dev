@@ -1,14 +1,20 @@
 $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
 
+@mixin fadeInAnimTop($delay: 0) {
+  animation-duration: 1s;
+  animation-name: fadeIn;
+  animation-delay: #{$delay}s;
+  animation-fill-mode: backwards;
+  animation-timing-function: cubic-bezier(0.3, 1, 0.3, 1);
+}
+
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   h1 {
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: opacity 2s cubic-bezier(0.3, 1, 0.3, 1), transform 2s cubic-bezier(0.3, 1, 0.3, 1);
+    @include fadeInAnimTop();
 
     @each $heading in $responsiveHeading {
       @media (max-width: #{nth($heading, 1)}px) {
@@ -19,32 +25,24 @@ $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
 
   .icons-container {
     svg {
-      opacity: 0;
       margin-right: 15px;
-      transform: translateY(-10px);
-
-      transition: opacity 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1),
-        transform 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1);
+      @include fadeInAnimTop(0.25);
 
       &:last-child {
         margin-right: 0;
-        transition: opacity 2s 0.5s cubic-bezier(0.3, 1, 0.3, 1),
-          transform 2s 0.5s cubic-bezier(0.3, 1, 0.3, 1);
+        @include fadeInAnimTop(0.5);
       }
     }
   }
 }
 
-.animate-header {
-  h1 {
-    opacity: 1;
-    transform: translateY(0px);
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-
-  .icons-container {
-    svg {
-      opacity: 1;
-      transform: translateY(0px);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
