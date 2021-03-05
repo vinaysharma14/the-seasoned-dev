@@ -19,7 +19,7 @@ $responsiveHeading: (450 1.5, 350 1.25, 280 1);
 
   #options {
     height: 25px;
-    @include animation(fadeInTop, 0.25);
+    @include animation(fadeInTop, 0.1);
 
     @media (min-width: 501px) {
       display: none;
@@ -33,11 +33,11 @@ $responsiveHeading: (450 1.5, 350 1.25, 280 1);
   .icons-container {
     svg {
       margin-right: 15px;
-      @include animation(fadeInTop, 0.25);
+      @include animation(fadeInTop, 0.1);
 
       &:last-child {
         margin-right: 0;
-        @include animation(fadeInTop, 0.5);
+        @include animation(fadeInTop, 0.2);
       }
     }
 

@@ -26,7 +26,7 @@
             margin-right: 15px;
           }
 
-          @include animation(fadeInTop, 0.25 * $i);
+          @include animation(fadeInTop, 0.1 * $i);
         }
       }
     }
