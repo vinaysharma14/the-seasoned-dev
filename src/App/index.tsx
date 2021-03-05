@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 
 import { useTheme } from 'hooks';
 
-import { Header } from './components';
+import { Header, Preferences } from './components';
 
 import './styles.scss';
 
@@ -16,6 +16,7 @@ const App: FC<Props> = ({ children }) => {
   return (
     <div className={`app-container ${theme}`}>
       <Header />
+      <Preferences />
       {children}
     </div>
   );

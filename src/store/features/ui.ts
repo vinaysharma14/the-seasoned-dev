@@ -7,11 +7,13 @@ import { AppThunk } from 'store/types';
 interface State {
   language: LocaleType;
   theme: 'light' | 'dark';
+  showPreferences: boolean;
 }
 
 const initialState: State = {
   theme: 'light',
   language: 'en',
+  showPreferences: false,
 };
 
 const uiSlice = createSlice({
@@ -24,11 +26,14 @@ const uiSlice = createSlice({
     setLanguage: (state: State, { payload }: PayloadAction<LocaleType>) => {
       state.language = payload;
     },
+    togglePreferences: (state: State) => {
+      state.showPreferences = !state.showPreferences;
+    },
   },
 });
 
 export const ui = uiSlice.reducer;
-export const { setTheme, setLanguage } = uiSlice.actions;
+export const { setTheme, setLanguage, togglePreferences } = uiSlice.actions;
 
 const rehydrateUI = (): AppThunk => async (dispatch) => {
   const [cachedTheme, cachedLanguage] = await Promise.all(

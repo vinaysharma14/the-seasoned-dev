@@ -1,12 +1,6 @@
-$responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
+@import "../../../theme/mixins";
 
-@mixin fadeInAnimTop($delay: 0) {
-  animation-duration: 1s;
-  animation-name: fadeIn;
-  animation-delay: #{$delay}s;
-  animation-fill-mode: backwards;
-  animation-timing-function: cubic-bezier(0.3, 1, 0.3, 1);
-}
+$responsiveHeading: (450 1.5, 350 1.25, 280 1);
 
 .header {
   display: flex;
@@ -14,7 +8,7 @@ $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
   justify-content: space-between;
 
   h1 {
-    @include fadeInAnimTop();
+    @include animation(fadeInTop);
 
     @each $heading in $responsiveHeading {
       @media (max-width: #{nth($heading, 1)}px) {
@@ -23,26 +17,32 @@ $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
     }
   }
 
+  #options {
+    height: 25px;
+    @include animation(fadeInTop, 0.25);
+
+    @media (min-width: 501px) {
+      display: none;
+    }
+
+    @media (max-width: 280px) {
+      height: 18px;
+    }
+  }
+
   .icons-container {
     svg {
       margin-right: 15px;
-      @include fadeInAnimTop(0.25);
+      @include animation(fadeInTop, 0.25);
 
       &:last-child {
         margin-right: 0;
-        @include fadeInAnimTop(0.5);
+        @include animation(fadeInTop, 0.5);
       }
     }
-  }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+    @media (max-width: 500px) {
+      display: none;
+    }
   }
 }

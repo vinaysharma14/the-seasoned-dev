@@ -1,10 +1,10 @@
 import React, { FC, useCallback } from 'react';
 
-import { useDispatch } from 'react-redux';
 import { useIntl } from 'react-intl';
+import { useDispatch } from 'react-redux';
 
-import { Contrast, Language } from 'assets/icons';
-import { changeTheme, changeLanguage } from 'store/features';
+import { Contrast, Language, Options } from 'assets/icons';
+import { changeTheme, changeLanguage, togglePreferences } from 'store/features';
 
 import { message } from '../../messages';
 
@@ -16,14 +16,17 @@ export const Header: FC = () => {
 
   const themeClickHandler = useCallback(() => dispatch(changeTheme()), [dispatch]);
   const langClickHandler = useCallback(() => dispatch(changeLanguage()), [dispatch]);
+  const preferenceHandler = useCallback(() => dispatch(togglePreferences()), [dispatch]);
 
   return (
     <div className="header">
       <h1>{intl.formatMessage(message.theSeasonedDev)}</h1>
 
+      <Options id="options" onClick={preferenceHandler} />
+
       <div className="icons-container">
-        <Contrast className="cta theme" onClick={themeClickHandler} />
-        <Language className="cta language" onClick={langClickHandler} />
+        <Contrast onClick={themeClickHandler} />
+        <Language onClick={langClickHandler} />
       </div>
     </div>
   );

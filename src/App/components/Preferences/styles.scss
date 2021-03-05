@@ -1,0 +1,38 @@
+@import "../../../theme/mixins";
+
+.backdrop {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+  @include flexCenter();
+  backdrop-filter: blur(2px);
+  @include animation(fadeIn);
+
+  .preferences-container {
+    border-radius: 2px;
+    padding: 15px 20px;
+    @include flexCenter();
+    background-color: var(--child-background);
+
+    svg {
+      // staggered animation
+      @for $i from 1 through 3 {
+        &:nth-child(#{$i}) {
+          @if $i == 3 {
+            margin-right: 0px;
+          } @else {
+            margin-right: 15px;
+          }
+
+          @include animation(fadeInTop, 0.25 * $i);
+        }
+      }
+    }
+  }
+
+  @media (min-width: 501px) {
+    display: none;
+  }
+}
