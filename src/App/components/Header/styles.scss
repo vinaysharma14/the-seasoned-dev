@@ -1,19 +1,16 @@
 @import "../../../theme/mixins";
 
-$responsiveHeading: (450 1.5, 350 1.25, 280 1);
-
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
   h1 {
+    font-size: 1.25em;
     @include animation(fadeInTop);
 
-    @each $heading in $responsiveHeading {
-      @media (max-width: #{nth($heading, 1)}px) {
-        font-size: #{nth($heading, 2)}em;
-      }
+    @media (max-width: 280px) {
+      font-size: 1em;
     }
   }
 
@@ -25,8 +22,12 @@ $responsiveHeading: (450 1.5, 350 1.25, 280 1);
       display: none;
     }
 
+    @media (max-width: 350px) {
+      height: 24px;
+    }
+
     @media (max-width: 280px) {
-      height: 18px;
+      height: 19px;
     }
   }
 
