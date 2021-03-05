@@ -52,6 +52,7 @@ export const Preferences: FC = () => {
       createPortal(
         <div className="backdrop">
           <div className="preferences-container" ref={ref}>
+            <div className="bg" />
             <Contrast onClick={themeClickHandler} />
             <Language onClick={langClickHandler} />
             <Close onClick={closePreferences} />

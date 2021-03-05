@@ -1,26 +1,30 @@
 @import "../../../theme/mixins";
 
 .backdrop {
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  position: fixed;
   @include flexCenter();
   backdrop-filter: blur(2px);
   @include animation(fadeIn);
+  @include absoluteFill(fixed);
 
   .preferences-container {
+    position: relative;
     border-radius: 2px;
     padding: 15px 20px;
     @include flexCenter();
     background-color: var(--child-background);
 
+    .bg {
+      z-index: -1;
+      border-radius: 2px;
+      @include absoluteFill();
+      background-color: var(--background);
+    }
+
     svg {
       // staggered animation
-      @for $i from 1 through 3 {
+      @for $i from 1 through 4 {
         &:nth-child(#{$i}) {
-          @if $i == 3 {
+          @if $i == 4 {
             margin-right: 0px;
           } @else {
             margin-right: 15px;
