@@ -1,3 +1,5 @@
+@import "../../theme/variables";
+
 $translationBreakpoints: (1024 768 600);
 $responsiveTranslation: (-200 -100 0 100 200, -100 -50 0 50 100, -50 -25 0 25 50, -40 -20 0 20 40);
 
@@ -27,6 +29,7 @@ $responsiveHeading: (1024 3, 768 2.5, 600 2, 450 1.5, 350 1.25, 280 1);
 
   h1 {
     font-size: 4em;
+    font-family: $blackWt;
     @include translation();
     transition: transform 2s 0.25s cubic-bezier(0.3, 1, 0.3, 1);
 
