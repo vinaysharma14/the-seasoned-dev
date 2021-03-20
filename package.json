@@ -22,7 +22,7 @@
     "eject": "react-scripts eject",
     "prestart": "npm run extract-messages",
     "prettify-locales": "npx prettier -w src/locales/*.json",
-    "extract-messages": "npx formatjs extract src/**/messages.ts --out-file src/locales/temp.json --format scripts/formatter.ts",
+    "extract-messages": "npx formatjs extract 'src/**/messages.ts' --out-file src/locales/temp.json --format scripts/formatter.ts",
     "postextract-messages": "npx ts-node -r tsconfig-paths/register -I /node_modules/ -P ts-node.json src/scripts/generate-locales.ts && npm run prettify-locales"
   },
   "eslintConfig": {
